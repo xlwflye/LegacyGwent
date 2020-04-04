@@ -30,7 +30,7 @@ namespace Cynthia.Card
 
         public async Task HandleEvent(AfterCardMove @event)
         {
-            if (@event.Target.PlayerIndex != Card.PlayerIndex)
+            if (@event.Target.PlayerIndex != Card.PlayerIndex && Card.IsAliveOnPlance())
             {
                 await @event.Target.Effect.Damage(damage, Card);
             }
@@ -40,7 +40,7 @@ namespace Cynthia.Card
                 var card = GetEnemyRandomCard();
                 if (card != null)
                 {
-                    await card.Effect.Damage(1, Card);
+                    await card.Effect.Damage(damage, Card);
                 }
             }
         }
