@@ -48,11 +48,11 @@ namespace Cynthia.Card
             {
                 //手动排除大间谍
                 var cardsId = Game.PlayerBaseDeck[AnotherPlayer].Deck
+                   .Select(x => x.CardId)
                    .Distinct()
-                   .Where(x => x.Is(type: CardType.Unit, filter: x => x.IsAnyGroup(Group.Silver) && x.CardId != "23001" && x.CardId != "33004" && x.CardId != "43001" && x.CardId != "53001" && x.CardId != "63002"))
+                   .Where(x => !GwentMap.CardMap[x].HasAnyCategorie(Categorie.Agent) && GwentMap.CardMap[x].Is(Group.Silver, CardType.Unit))
                    .Mess(Game.RNG)
-                   .Take(3)
-                   .Select(x => x.CardId).ToArray();
+                   .Take(3).ToArray();
                 return await Game.CreateAndMoveStay(PlayerIndex, cardsId);
 
             }
